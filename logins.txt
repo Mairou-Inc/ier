@@ -1,0 +1,9 @@
+a
+root
+admin
+linux
+ubuntu
+1
+123
+qwerty
+user
