@@ -1,2 +1,2 @@
-git pull
-python main.py
+# git pull
+venv/bin/python main.py
